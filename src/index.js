@@ -35,7 +35,7 @@ bot.on('message', async msg => {
 
   switch (msg.text) {
     case kb.home.coming:
-      const coming = await axios.get("https://imdb-api.com/en/API/ComingSoon/k_27hvjnzl")
+      const coming = await axios.get("https://imdb-api.com/en/API/ComingSoon/k_9bhbsg3b")
       let soonFilms = coming.data.items
       soonFilms.forEach(async film => {
         //Cerca il trailer
@@ -43,7 +43,7 @@ bot.on('message', async msg => {
       })
       break
     case kb.home.theaters:
-      const theaters = await axios.get("https://imdb-api.com/en/API/InTheaters/k_27hvjnzl")
+      const theaters = await axios.get("https://imdb-api.com/en/API/InTheaters/k_9bhbsg3b")
       let nowFilms = theaters.data.items
 
       nowFilms.forEach(async film => {
@@ -55,7 +55,7 @@ bot.on('message', async msg => {
       con.query("SELECT * FROM preferiti WHERE IdUser = ? ", [msg.from.id], (error, result) => {
         if (error) throw error
         result.forEach(async fav => {
-          const result = await axios.get("https://imdb-api.com/en/API/Title/k_27hvjnzl/" + fav.IdFilm)
+          const result = await axios.get("https://imdb-api.com/en/API/Title/k_9bhbsg3b/" + fav.IdFilm)
           let film = result.data
           sendFilm(film, msg, true)
         })
@@ -86,11 +86,11 @@ bot.onText(/\/id/, msg => {
 //FILMS NEW
 bot.onText(/\/film (.+)/, async (msg, match) => {
   //Cerca il titolo generale
-  const generalSearch = await axios.get("https://imdb-api.com/en/API/Search/k_27hvjnzl/" + match[1])
+  const generalSearch = await axios.get("https://imdb-api.com/en/API/Search/k_9bhbsg3b/" + match[1])
   let filmGeneral = generalSearch.data.results[0]
 
   //Cerca in dettaglio il film
-  const result = await axios.get("https://imdb-api.com/en/API/Title/k_27hvjnzl/" + filmGeneral.id)
+  const result = await axios.get("https://imdb-api.com/en/API/Title/k_9bhbsg3b/" + filmGeneral.id)
   let film = result.data
   console.log(film)
 
@@ -99,10 +99,10 @@ bot.onText(/\/film (.+)/, async (msg, match) => {
 
 //Series NEW
 bot.onText(/\/serie (.+)/, async (msg, match) => {
-  const seriesSearch = await axios.get("https://imdb-api.com/en/API/SearchSeries/k_27hvjnzl/" + match[1])
+  const seriesSearch = await axios.get("https://imdb-api.com/en/API/SearchSeries/k_9bhbsg3b/" + match[1])
   let seriesGeneral = seriesSearch.data.results[0]
 
-  const result = await axios.get("https://imdb-api.com/en/API/Title/k_27hvjnzl/" + seriesGeneral.id)
+  const result = await axios.get("https://imdb-api.com/en/API/Title/k_9bhbsg3b/" + seriesGeneral.id)
   let serie = result.data
   console.log(serie)
   bot.sendPhoto(msg.chat.id, serie.image, {
@@ -125,10 +125,10 @@ function sendHtml(chatId, html, keyboardName = null) {
 
 async function sendFilm(film, msg, isFav) {
   console.log(film)
-  const trailerSearch = await axios.get("https://imdb-api.com/en/API/YouTubeTrailer/k_27hvjnzl/" + film.id)
+  const trailerSearch = await axios.get("https://imdb-api.com/en/API/YouTubeTrailer/k_9bhbsg3b/" + film.id)
   let trailer = trailerSearch.data
   //Cerca il sito ufficiale
-  const officialWeb = await axios.get("https://imdb-api.com/en/API/ExternalSites/k_27hvjnzl/" + film.id)
+  const officialWeb = await axios.get("https://imdb-api.com/en/API/ExternalSites/k_9bhbsg3b/" + film.id)
   let website = officialWeb.data
   console.log(trailer.videoUrl, website.officialWebsite)
 
@@ -223,12 +223,12 @@ app.route('/favourites')
       if (error) throw error;
       let movies = [];
       results.forEach(async (filmid,index) => {
-        const result = await axios.get("https://imdb-api.com/en/API/Title/k_27hvjnzl/" + filmid.IdFilm)
+        const result = await axios.get("https://imdb-api.com/en/API/Title/k_9bhbsg3b/" + filmid.IdFilm)
         let film = result.data
-        const trailerSearch = await axios.get("https://imdb-api.com/en/API/YouTubeTrailer/k_27hvjnzl/" + filmid.IdFilm)
+        const trailerSearch = await axios.get("https://imdb-api.com/en/API/YouTubeTrailer/k_9bhbsg3b/" + filmid.IdFilm)
         let trailer = trailerSearch.data
         //Cerca il sito ufficiale
-        const officialWeb = await axios.get("https://imdb-api.com/en/API/ExternalSites/k_27hvjnzl/" + filmid.IdFilm)
+        const officialWeb = await axios.get("https://imdb-api.com/en/API/ExternalSites/k_9bhbsg3b/" + filmid.IdFilm)
         let website = officialWeb.data
 
         let movie = {
